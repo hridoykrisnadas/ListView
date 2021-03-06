@@ -7,13 +7,6 @@
     android:padding="10dp"
     android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/search_viewId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </SearchView>
-
     <ListView
         android:id="@+id/ListViewId"
         android:layout_width="match_parent"
