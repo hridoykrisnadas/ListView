@@ -1,19 +1,23 @@
 package com.shitsolution.listview;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ListView listView;
+    SearchView searchView;
+    ArrayList<String> mylist;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listView = findViewById(R.id.ListViewId);
+        searchView = findViewById(R.id.search_viewId);
+
 
         Context context;
-        ArrayAdapter <String> arrayAdapter = new ArrayAdapter<String>( MainActivity.this, R.layout.sample_layout,
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.sample_layout,
                 R.id.sample_Text_ViewId, getCountry());
 
         listView.setAdapter(arrayAdapter);
@@ -33,10 +39,36 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = getCountry().get(position);
 
-                Toast.makeText(MainActivity.this, value+ " "+ position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, value + " " + position, Toast.LENGTH_SHORT).show();
 
             }
         });
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+                if (getCountry().contains(query)) {
+
+                    arrayAdapter.getFilter().filter(query);
+
+                } else {
+
+                    Toast.makeText(MainActivity.this, "No Match found", Toast.LENGTH_LONG).show();
+
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
     }
 
     public ArrayList<String> getCountry() {
